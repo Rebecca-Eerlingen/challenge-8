@@ -1,0 +1,155 @@
+ <?php
+ini_set ('display_errors',1);
+ini_set ('display_startup_errors',1);
+error_reporting (E_ALL);
+
+ include ("MEESdb.php");
+
+//  DELETE
+if (isset($_POST["action"]) && $_POST["action"] === "delete") {
+    $id = $_POST["id"] ?? null;
+
+   $stmt = $conn->prepare("DELETE FROM tb_producten WHERE id = ?");
+   $stmt->bind_param("i", $id);
+
+   if ($stmt->execute()) {
+       header ("Location: admin.php");
+       exit;
+    } else { $error = "verwijderen mislukt:". $conn->error; 
+    } 
+    $stmt->close();
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>insert/delete page</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            margin: 1em 0;
+        }
+        th, td { padding: 6px 10px; border: 1px solid #999; }
+        th { background: #eee; }
+        .btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 2px;
+    text-decoration: none;
+    color: white;
+    border-radius: 4px;
+    font-size: 0.95em;
+    cursor: pointer;
+}
+
+.btn.btn.change {
+    background-color: #007bff;      /* blue */
+}
+
+.btn.delete {
+    background-color: #dc3545;      /* red */
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
+
+
+    </style>
+</head>
+
+<!-- lijst van pokemons -->
+<body>
+    <center>
+        <h2>
+            voeg pokemons toe aan Database
+        </h2>
+        <form action="insert.php" method="POST">
+            Pokemon naam
+            <input name="name" required type="text"> <br/> <br/>
+
+            prijs
+            <input name="cost" required type="text"> <br/> <br>
+
+            eten of drinken?<br>
+            <input name="type" required type="radio" value="#"> # <br>
+            <input name="type" required type="radio" value="#"> #<br>
+
+            hoeveel punten is het waard? (prijs x 10) <br> 
+            <input name="points" required type="text">
+            <br>
+
+            Taal?
+            <input type="radio" name="lang" value="nl" required> Nederlands
+            <input type="radio" name="lang" value="en" required> Engels
+            <br>
+            <input type="submit" value="submit">
+            <br> <br> 
+        </form>
+        <p>
+
+<?php
+$result = $conn->query("SELECT * FROM tb_producten");
+
+ if (!$result) {
+    echo "<p style='color:red; font-weight:bold;'> ";
+    echo 'data query mislukt'. htmlspecialchars($conn->error);
+    echo '</p>';
+ } elseif ($result->num_rows === 0) {
+    echo '<p> geen producten gevonden.</p>';
+ } else { 
+ ?>
+    <!-- lijst met hele database -->
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Product</th>
+            <th>Prijs</th>
+            <th>Type</th>
+            <th>Points</th>
+            <th>Taal</th>
+        </tr>
+
+        <?php while($row = $result->fetch_assoc()): ?>
+            <tr>
+            <td><?= htmlspecialchars($row['id']    ?? '—') ?></td>
+            <td><?= htmlspecialchars($row['name']  ?? '—') ?></td>
+            <td><?= htmlspecialchars($row['cost']  ?? '—') ?></td>
+            <td><?= htmlspecialchars($row['type']  ?? '—') ?></td>
+            <td><?= htmlspecialchars($row['points'] ?? '—') ?></td>
+            <td><?= htmlspecialchars($row['lang'] ?? '—') ?></td>
+            <td>
+                            <form>
+                                
+                            </form>
+                            <form action="admin.php" method="POST" style="display:inline;"> 
+                                <input type="hidden" name="action" value="delete">
+                                <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                                <button type="submit" class="btn delete"
+                                    onclick="return confirm('Weet je zeker dat je <?= htmlspecialchars($row['name'], ENT_QUOTES) ?> wilt verwijderen?');">
+                                    🗑️ Verwijderen
+                                </button>
+                            </form>
+                            <a href="edit.php?id=<?= $row['id'] ?>" 
+                            class="btn change"
+                            onclick="return confirm('Weet je zeker dat je <?= htmlspecialchars($row['name'], ENT_QUOTES) ?> wilt wijzigen?');">
+                            wijzigen ✏️
+                            </a>
+
+                        </td>
+</td>
+                            </a>
+                        </td>
+            </tr>
+        <?php endwhile; ?>
+
+    </table>
+    <?php
+        }
+    ?>
+    </center>
+</body>
+</html>
