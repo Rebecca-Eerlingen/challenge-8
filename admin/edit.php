@@ -16,9 +16,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $type   = $_POST['type']   ?? '';
     $img    = trim($_POST['img']    ?? '');
 
-    if ($name && $cost && in_array($type, ['eten','drinken']) && is_numeric($points) && in_array($lang, ['nl','en'])) {
-        $stmt = $conn->prepare("UPDATE tb_producten SET name=?, cost=?, type=?, points=?, lang=? WHERE ID=?");
-        $stmt->bind_param("sssssi", $name, $cost, $type, $points, $lang, $id);
+    if ($name && in_array($type, ['water','fire','grass','electric','wind']) && $img) {
+        $stmt = $conn->prepare("UPDATE tb_pokemon SET name=?, type=?, img=? WHERE ID=?");
+        $stmt->bind_param("sssi", $name, $type, $img, $id);
 
         if ($stmt->execute()) {
             header("Location: admin.php?msg=Product+bijgewerkt");
