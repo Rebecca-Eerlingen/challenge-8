@@ -2,7 +2,7 @@
 ini_set("display_errors",1);
 ini_set("display_startup_errors",1);
 error_reporting(E_ALL);
-include ("#");
+include ("../includes/db.php");
 $id = (int)($_GET['id'] ?? 0);
 
 if ($id <= 0) {
@@ -12,11 +12,9 @@ if ($id <= 0) {
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name   = trim($_POST['#']   ?? '');
-    $cost   = trim($_POST['#']   ?? '');
+    $name   = trim($_POST['name']   ?? '');
     $type   = $_POST['type']   ?? '';
-    $points = trim($_POST['#'] ?? '');
-    $lang   = $_POST['lang']   ?? '#';
+    $img    = trim($_POST['img']    ?? '');
 
     if ($name && $cost && in_array($type, ['eten','drinken']) && is_numeric($points) && in_array($lang, ['nl','en'])) {
         $stmt = $conn->prepare("UPDATE tb_producten SET name=?, cost=?, type=?, points=?, lang=? WHERE ID=?");
@@ -36,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // load current data
 
-$stmt = $conn->prepare("SELECT * FROM tb_producten WHERE ID = ?");
+$stmt = $conn->prepare("SELECT * FROM tb_pokemon WHERE ID = ?");
 $stmt->bind_param("i", $id);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -71,23 +69,18 @@ if (!$product) {
 <?php endif; ?>
 
 <form method="POST">
-    <label>Product naam:</label>
+    <label>naam:</label>
     <input name="name"   required value="<?= htmlspecialchars($product['name']) ?>">
 
-    <label>Prijs:</label>
-    <input name="cost"   required value="<?= htmlspecialchars($product['cost']) ?>">
+    <label>img:</label>
+    <input name="img"    required value="<?= htmlspecialchars($product['img']) ?>">
 
     <label>Type:</label>
-    <label><input type="radio" name="type" value="eten"    <?= $product['type']==='eten'?'checked':'' ?>> eten</label>
-    <label><input type="radio" name="type" value="drinken" <?= $product['type']==='drinken'?'checked':'' ?>> drinken</label>
-
-    <label>Punten (prijs × 10):</label>
-    <input name="points" required type="number" min="0" value="<?= htmlspecialchars($product['points']) ?>">
-
-    <label>Taal:</label>
-    <label><input type="radio" name="lang" value="nl" <?= $product['lang']==='nl'?'checked':'' ?>> Nederlands</label>
-    <label><input type="radio" name="lang" value="en" <?= $product['lang']==='en'?'checked':'' ?>> Engels</label>
-
+    <label> <input name="type" required type="radio" value="water"> Water <br> </label>
+    <label> <input name="type" required type="radio" value="fire"> Fire <br> </label>
+    <label> <input name="type" required type="radio" value="grass"> Grass <br> </label>
+    <label> <input name="type" required type="radio" value="electric"> Electric <br> </label>
+    <label> <input name="type" required type="radio" value="wind"> Wind <br> </label>
     <br><br>
     <button type="submit">Opslaan</button>
     &nbsp; &nbsp;

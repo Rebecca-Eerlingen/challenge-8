@@ -1,16 +1,17 @@
 <?php
-include ("MEESdb.php");
 
-$Producten = mysqli_real_escape_string($conn, $_POST["name"] ?? '');
-$prijs = mysqli_real_escape_string($conn, $_POST["cost"]?? '');
-$type = mysqli_real_escape_string($conn, $_POST["type"]?? '');
-$points = mysqli_real_escape_string($conn, $_POST["points"]?? '');
-$lang = mysqli_real_escape_string($conn, $_POST["lang"]?? 'nl');
+use Dom\Sqlite;
 
-$sql = "INSERT INTO `tb_producten` (`id`, `name`, `cost`, `type`, `points`, `lang`)
-VALUES ('', '$Producten', '$prijs', '$type','$points', '$lang')";
+include ("../includes/db.php");
+
+$name = $_POST["name"] ?? '';
+$img = $_POST["img"]?? '';
+$type = $_POST["type"]?? '';
+
+$sql = "INSERT INTO `tb_pokemon` (`name`, `img`, `type`)
+VALUES ('$name', '$img', '$type')";
 if ($conn->query($sql) === TRUE) {
-    echo "producten succesvol toegevoegd";
+    echo "pokemon succesvol toegevoegd";
 } 
 else {
     echo "Error" . $sql . "<br>" . $conn->error;

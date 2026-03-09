@@ -3,13 +3,13 @@ ini_set ('display_errors',1);
 ini_set ('display_startup_errors',1);
 error_reporting (E_ALL);
 
- include ("MEESdb.php");
+ include ("../includes/db.php");
 
 //  DELETE
 if (isset($_POST["action"]) && $_POST["action"] === "delete") {
     $id = $_POST["id"] ?? null;
 
-   $stmt = $conn->prepare("DELETE FROM tb_producten WHERE id = ?");
+   $stmt = $conn->prepare("DELETE FROM tb_pokemon WHERE id = ?");
    $stmt->bind_param("i", $id);
 
    if ($stmt->execute()) {
@@ -71,28 +71,23 @@ if (isset($_POST["action"]) && $_POST["action"] === "delete") {
             Pokemon naam
             <input name="name" required type="text"> <br/> <br/>
 
-            prijs
-            <input name="cost" required type="text"> <br/> <br>
+            img
+            <input name="img" required type="text"> <br/> <br>
 
-            eten of drinken?<br>
-            <input name="type" required type="radio" value="#"> # <br>
-            <input name="type" required type="radio" value="#"> #<br>
+            type pokemon<br>
+            <input name="type" required type="radio" value="water"> Water <br>
+            <input name="type" required type="radio" value="fire"> Fire <br>
+            <input name="type" required type="radio" value="grass"> Grass <br>
+            <input name="type" required type="radio" value="electric"> Electric <br>
+            <input name="type" required type="radio" value="wind"> Wind <br>
 
-            hoeveel punten is het waard? (prijs x 10) <br> 
-            <input name="points" required type="text">
-            <br>
-
-            Taal?
-            <input type="radio" name="lang" value="nl" required> Nederlands
-            <input type="radio" name="lang" value="en" required> Engels
-            <br>
             <input type="submit" value="submit">
             <br> <br> 
         </form>
         <p>
 
 <?php
-$result = $conn->query("SELECT * FROM tb_producten");
+$result = $conn->query("SELECT * FROM tb_pokemon");
 
  if (!$result) {
     echo "<p style='color:red; font-weight:bold;'> ";
@@ -106,21 +101,17 @@ $result = $conn->query("SELECT * FROM tb_producten");
     <table>
         <tr>
             <th>ID</th>
-            <th>Product</th>
-            <th>Prijs</th>
+            <th>Pokemon</th>
+            <th>Img</th>
             <th>Type</th>
-            <th>Points</th>
-            <th>Taal</th>
         </tr>
 
         <?php while($row = $result->fetch_assoc()): ?>
             <tr>
             <td><?= htmlspecialchars($row['id']    ?? '—') ?></td>
             <td><?= htmlspecialchars($row['name']  ?? '—') ?></td>
-            <td><?= htmlspecialchars($row['cost']  ?? '—') ?></td>
-            <td><?= htmlspecialchars($row['type']  ?? '—') ?></td>
-            <td><?= htmlspecialchars($row['points'] ?? '—') ?></td>
-            <td><?= htmlspecialchars($row['lang'] ?? '—') ?></td>
+            <td><?= htmlspecialchars($row['img']  ?? '—') ?></td>
+            <td><?= htmlspecialchars($row['type'] ?? '—') ?></td>
             <td>
                             <form>
                                 
