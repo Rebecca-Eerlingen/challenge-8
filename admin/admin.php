@@ -69,10 +69,10 @@ if (isset($_POST["action"]) && $_POST["action"] === "delete") {
         </h2>
         <form action="insert.php" method="POST">
             Pokemon naam
-            <input name="name" required type="text"> <br/> <br/>
+            <input name="name" required type="text" placeholder="Naam"> <br/> <br/>
 
             img
-            <input name="img" required type="text"> <br/> <br>
+            <input name="img" required type="text" placeholder="Image URL"> <br/> <br>
 
             type pokemon<br>
             <input name="type" required type="radio" value="water"> Water <br>
@@ -80,6 +80,15 @@ if (isset($_POST["action"]) && $_POST["action"] === "delete") {
             <input name="type" required type="radio" value="grass"> Grass <br>
             <input name="type" required type="radio" value="electric"> Electric <br>
             <input name="type" required type="radio" value="wind"> Wind <br>
+
+            weight
+            <input type="text" name="weight" required class="weight" placeholder="Weight">
+
+            height
+            <input type="text" name="height" required class="height" placeholder="Height">
+
+            discription
+            <input type="text" name="discription" required class="discription" placeholder="Discription">
 
             <input type="submit" value="submit">
             <br> <br> 
@@ -112,6 +121,9 @@ $result = $conn->query("SELECT * FROM tb_pokemon");
             <td><?= htmlspecialchars($row['name']  ?? '—') ?></td>
             <td><?= htmlspecialchars($row['img']  ?? '—') ?></td>
             <td><?= htmlspecialchars($row['type'] ?? '—') ?></td>
+            <td><?= htmlspecialchars($row['weight'] ?? '—') ?></td>
+            <td><?= htmlspecialchars($row['height'] ?? '—') ?></td>
+            <td><?= htmlspecialchars($row['discription'] ?? '—') ?></td>
             <td>
                             <form>
                                 

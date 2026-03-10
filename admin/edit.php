@@ -15,10 +15,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name   = trim($_POST['name']   ?? '');
     $type   = $_POST['type']   ?? '';
     $img    = trim($_POST['img']    ?? '');
+    $weight = trim($_POST['weight'] ?? '');
+    $height = trim($_POST['height'] ?? '');
+    $discription = trim($_POST['discription'] ?? '');
 
     if ($name && in_array($type, ['water','fire','grass','electric','wind']) && $img) {
-        $stmt = $conn->prepare("UPDATE tb_pokemon SET name=?, type=?, img=? WHERE ID=?");
-        $stmt->bind_param("sssi", $name, $type, $img, $id);
+        $stmt = $conn->prepare("UPDATE tb_pokemon SET name=?, type=?, img=?, weight=?, height=?, discription=? WHERE ID=?");
+        $stmt->bind_param("sssi", $name, $type, $img, $weight, $height, $discription, $id);
 
         if ($stmt->execute()) {
             header("Location: admin.php?msg=Product+bijgewerkt");
@@ -82,6 +85,16 @@ if (!$product) {
     <label> <input name="type" required type="radio" value="electric"> Electric <br> </label>
     <label> <input name="type" required type="radio" value="wind"> Wind <br> </label>
     <br><br>
+
+    <label>Weight:</label>
+    <input type="text" name="weight" required class="weight" placeholder="Weight" value="<?= htmlspecialchars($product['weight']) ?>">
+
+    <label>Height:</label>
+    <input type="text" name="height" required class="height" placeholder="Height" value="<?= htmlspecialchars($product['height']) ?>">
+
+    <label>Discription:</label>
+    <input type="text" name="discription" required class="discription" placeholder="Discription" value="<?= htmlspecialchars($product['discription']) ?>">
+
     <button type="submit">Opslaan</button>
     &nbsp; &nbsp;
     <a href="admin.php">Annuleren / Terug</a>
