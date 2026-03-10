@@ -7,9 +7,9 @@ error_reporting (E_ALL);
 
 //  DELETE
 if (isset($_POST["action"]) && $_POST["action"] === "delete") {
-    $id = $_POST["id"] ?? null;
+    $id = $_POST["dex_number"] ?? null;
 
-   $stmt = $conn->prepare("DELETE FROM tb_pokemon WHERE id = ?");
+   $stmt = $conn->prepare("DELETE FROM tb_pokemon WHERE dex_number = ?");
    $stmt->bind_param("i", $id);
 
    if ($stmt->execute()) {
@@ -71,6 +71,9 @@ if (isset($_POST["action"]) && $_POST["action"] === "delete") {
             Pokemon naam
             <input name="name" required type="text" placeholder="Naam"> <br/> <br/>
 
+            dex_number
+            <input name="dex_number" required type="number" placeholder="Dex number"> <br/> <br/>
+
             img
             <input name="img" required type="text" placeholder="Image URL"> <br/> <br>
 
@@ -109,7 +112,7 @@ $result = $conn->query("SELECT * FROM tb_pokemon");
     <!-- lijst met hele database -->
     <table>
         <tr>
-            <th>ID</th>
+            <th>dex nummer</th>
             <th>Pokemon</th>
             <th>Img</th>
             <th>Type</th>
@@ -120,7 +123,7 @@ $result = $conn->query("SELECT * FROM tb_pokemon");
 
         <?php while($row = $result->fetch_assoc()): ?>
             <tr>
-            <td><?= htmlspecialchars($row['id']    ?? '—') ?></td>
+            <td><?= htmlspecialchars($row['dex_number']    ?? '—') ?></td>
             <td><?= htmlspecialchars($row['name']  ?? '—') ?></td>
             <td><?= htmlspecialchars($row['img']  ?? '—') ?></td>
             <td><?= htmlspecialchars($row['type'] ?? '—') ?></td>
@@ -133,13 +136,13 @@ $result = $conn->query("SELECT * FROM tb_pokemon");
                             </form>
                             <form action="admin.php" method="POST" style="display:inline;"> 
                                 <input type="hidden" name="action" value="delete">
-                                <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                                <input type="hidden" name="dex_number" value="<?= $row['dex_number'] ?>">
                                 <button type="submit" class="btn delete"
                                     onclick="return confirm('Weet je zeker dat je <?= htmlspecialchars($row['name'], ENT_QUOTES) ?> wilt verwijderen?');">
                                     🗑️ Verwijderen
                                 </button>
                             </form>
-                            <a href="edit.php?id=<?= $row['id'] ?>" 
+                            <a href="edit.php?id=<?= $row['dex_number'] ?>" 
                             class="btn change"
                             onclick="return confirm('Weet je zeker dat je <?= htmlspecialchars($row['name'], ENT_QUOTES) ?> wilt wijzigen?');">
                             wijzigen ✏️
