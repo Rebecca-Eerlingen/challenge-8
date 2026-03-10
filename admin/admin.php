@@ -113,6 +113,9 @@ $result = $conn->query("SELECT * FROM tb_pokemon");
             <th>Pokemon</th>
             <th>Img</th>
             <th>Type</th>
+            <th>Weight</th>
+            <th>Height</th> 
+            <th>Discription</th>
         </tr>
 
         <?php while($row = $result->fetch_assoc()): ?>

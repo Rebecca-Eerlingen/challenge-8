@@ -1,4 +1,7 @@
 <?php
+
+use function PHPSTORM_META\type;
+
 ini_set("display_errors",1);
 ini_set("display_startup_errors",1);
 error_reporting(E_ALL);
@@ -21,7 +24,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($name && in_array($type, ['water','fire','grass','electric','wind']) && $img) {
         $stmt = $conn->prepare("UPDATE tb_pokemon SET name=?, type=?, img=?, weight=?, height=?, discription=? WHERE ID=?");
-        $stmt->bind_param("sssi", $name, $type, $img, $weight, $height, $discription, $id);
+        $stmt->bind_param("ssssssi", $name, $type, $img, $weight, $height, $discription, $id);
+        // $stmt->bind_param("sssssssi", $name, $type, $img, $weight, $height, $discription, $id);
 
         if ($stmt->execute()) {
             header("Location: admin.php?msg=Product+bijgewerkt");
