@@ -7,9 +7,9 @@ error_reporting (E_ALL);
 
 //  DELETE
 if (isset($_POST["action"]) && $_POST["action"] === "delete") {
-    $id = $_POST["dex_number"] ?? null;
+    $id = $_POST["id"] ?? null;
 
-   $stmt = $conn->prepare("DELETE FROM tb_pokemon WHERE dex_number = ?");
+   $stmt = $conn->prepare("DELETE FROM tb_pokemon WHERE id = ?");
    $stmt->bind_param("i", $id);
 
    if ($stmt->execute()) {
@@ -27,6 +27,7 @@ if (isset($_POST["action"]) && $_POST["action"] === "delete") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>insert/delete page</title>
+    <link href=""> 
     <style>
         table {
             border-collapse: collapse;
@@ -71,9 +72,6 @@ if (isset($_POST["action"]) && $_POST["action"] === "delete") {
             Pokemon naam
             <input name="name" required type="text" placeholder="Naam"> <br/> <br/>
 
-            dex_number
-            <input name="dex_number" required type="number" placeholder="Dex number"> <br/> <br/>
-
             img
             <input name="img" required type="text" placeholder="Image URL"> <br/> <br>
 
@@ -90,16 +88,32 @@ if (isset($_POST["action"]) && $_POST["action"] === "delete") {
             height
             <input type="text" name="height" required class="height" placeholder="Height">
 
-            discription
-            <input type="text" name="discription" required class="discription" placeholder="Discription">
+            description
+            <input type="text" name="description" required class="description" placeholder="Description">
 
             <input type="submit" value="submit">
+
             <br> <br> 
         </form>
+
+    <form action="admin.php" method="GET">
+        <input type="text" name="query" placeholder="search...">
+        <button type="submit">Search</button>
+    </form>
         <p>
 
 <?php
-$result = $conn->query("SELECT * FROM tb_pokemon");
+$search = $_GET['query'] ?? '';
+
+if ($search !== '') {
+    $stmt = $conn->prepare("SELECT * FROM tb_pokemon WHERE name LIKE ?");
+    $like = "%".$search."%";
+    $stmt->bind_param("s", $like);
+    $stmt->execute();
+    $result = $stmt->get_result();
+} else {
+    $result = $conn->query("SELECT * FROM tb_pokemon");
+}
 
  if (!$result) {
     echo "<p style='color:red; font-weight:bold;'> ";
@@ -112,7 +126,7 @@ $result = $conn->query("SELECT * FROM tb_pokemon");
     <!-- lijst met hele database -->
     <table>
         <tr>
-            <th>dex nummer</th>
+            <th>ID</th>
             <th>Pokemon</th>
             <th>Img</th>
             <th>Type</th>
@@ -123,7 +137,7 @@ $result = $conn->query("SELECT * FROM tb_pokemon");
 
         <?php while($row = $result->fetch_assoc()): ?>
             <tr>
-            <td><?= htmlspecialchars($row['dex_number']    ?? '—') ?></td>
+            <td><?= htmlspecialchars($row['id']    ?? '—') ?></td>
             <td><?= htmlspecialchars($row['name']  ?? '—') ?></td>
             <td><?= htmlspecialchars($row['img']  ?? '—') ?></td>
             <td><?= htmlspecialchars($row['type'] ?? '—') ?></td>
@@ -136,13 +150,13 @@ $result = $conn->query("SELECT * FROM tb_pokemon");
                             </form>
                             <form action="admin.php" method="POST" style="display:inline;"> 
                                 <input type="hidden" name="action" value="delete">
-                                <input type="hidden" name="dex_number" value="<?= $row['dex_number'] ?>">
+                                <input type="hidden" name="id" value="<?= $row['id'] ?>">
                                 <button type="submit" class="btn delete"
                                     onclick="return confirm('Weet je zeker dat je <?= htmlspecialchars($row['name'], ENT_QUOTES) ?> wilt verwijderen?');">
                                     🗑️ Verwijderen
                                 </button>
                             </form>
-                            <a href="edit.php?id=<?= $row['dex_number'] ?>" 
+                            <a href="edit.php?id=<?= $row['id'] ?>" 
                             class="btn change"
                             onclick="return confirm('Weet je zeker dat je <?= htmlspecialchars($row['name'], ENT_QUOTES) ?> wilt wijzigen?');">
                             wijzigen ✏️
