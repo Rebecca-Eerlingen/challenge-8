@@ -6,15 +6,19 @@ include ("../includes/db.php");
 
 $name = $_POST["name"] ?? '';
 $img = $_POST["img"]?? '';
-$type1 = $_POST["type1"]?? '';
-$type2 = $_POST["type2"]?? '';
 $weight = $_POST["weight"]?? '';
 $height = $_POST["height"]?? '';
 $description = $_POST["description"]?? '';
 $dex_number = $_POST["dex_number"]?? '';
 
-$sql = "INSERT INTO `tb_pokemon` (`name`, `img`, `type1`, `type2`, `weight`, `height`, `description`, `dex_number`)
-VALUES ('$name', '$img', '$type1', '$type2', '$weight', '$height', '$description', '$dex_number')";
+$types = $_POST["type"] ?? [];
+$type1 = $types[0] ?? NULL;
+$type2 = $types[1] ?? NULL;
+
+$sql = "INSERT INTO `tb_pokemon` 
+(`name`, `img`, `type1`, `type2`, `weight`, `height`, `description`, `dex_number`)
+VALUES 
+('$name', '$img', '$type1', '$type2', '$weight', '$height', '$description', '$dex_number')";
 if ($conn->query($sql) === TRUE) {
     echo "pokemon succesvol toegevoegd";
 } 
