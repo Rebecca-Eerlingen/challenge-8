@@ -78,11 +78,17 @@ if (isset($_POST["action"]) && $_POST["action"] === "delete") {
             <input name="img" required type="text" placeholder="Image URL"> <br/> <br>
 
             type pokemon<br>
-            <input name="type" required type="radio" value="water"> Water <br>
-            <input name="type" required type="radio" value="fire"> Fire <br>
-            <input name="type" required type="radio" value="grass"> Grass <br>
-            <input name="type" required type="radio" value="electric"> Electric <br>
-            <input name="type" required type="radio" value="wind"> Wind <br>
+            <input name="type" required type="radio" value="water"> Water 
+            <input name="type" required type="radio" value="fire"> Fire 
+            <input name="type" required type="radio" value="grass"> Grass 
+            <input name="type" required type="radio" value="electric"> Electric 
+            <input name="type" required type="radio" value="wind"> Wind <br> <br>
+
+            2e type<br>
+            <input type="radio"  name="type2" value="fly"> Fly 
+            <input type="radio"  name="type2" value="ground"> Ground 
+            <input type="radio"  name="type2" value="rock"> Rock 
+            <input type="radio"  name="type2" value="poison"> Poison <br> <br>
 
             weight
             <input type="text" name="weight" required class="weight" placeholder="Weight">
@@ -90,8 +96,8 @@ if (isset($_POST["action"]) && $_POST["action"] === "delete") {
             height
             <input type="text" name="height" required class="height" placeholder="Height">
 
-            discription
-            <input type="text" name="discription" required class="discription" placeholder="Discription">
+            description
+            <input type="text" name="description" required class="description" placeholder="Description">
 
             <input type="submit" value="submit">
             <br> <br> 
@@ -115,21 +121,23 @@ $result = $conn->query("SELECT * FROM tb_pokemon");
             <th>dex nummer</th>
             <th>Pokemon</th>
             <th>Img</th>
-            <th>Type</th>
+            <th>Type1</th>
+            <th>type 2</th>
             <th>Weight</th>
             <th>Height</th> 
-            <th>Discription</th>
+            <th>Description</th>
         </tr>
 
         <?php while($row = $result->fetch_assoc()): ?>
             <tr>
             <td><?= htmlspecialchars($row['dex_number']    ?? '—') ?></td>
             <td><?= htmlspecialchars($row['name']  ?? '—') ?></td>
-            <td><?= htmlspecialchars($row['img']  ?? '—') ?></td>
-            <td><?= htmlspecialchars($row['type'] ?? '—') ?></td>
+            <td> <img src="../pokemon img/icons/<?= htmlspecialchars($row['dex_number']  ?? '—') ?>.png" alt=""></td>
+            <td><?= htmlspecialchars($row['type1'] ?? '—') ?></td>
+            <td><?= htmlspecialchars($row['type2'] ?? '—') ?></td>
             <td><?= htmlspecialchars($row['weight'] ?? '—') ?></td>
             <td><?= htmlspecialchars($row['height'] ?? '—') ?></td>
-            <td><?= htmlspecialchars($row['discription'] ?? '—') ?></td>
+            <td><?= htmlspecialchars($row['description'] ?? '—') ?></td>
             <td>
                             <form>
                                 

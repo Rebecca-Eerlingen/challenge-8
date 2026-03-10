@@ -16,16 +16,17 @@ if ($id <= 0) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name   = trim($_POST['name']   ?? '');
-    $type   = $_POST['type']   ?? '';
+    $type1   = $_POST['type1']   ?? '';
+    $type2   = $_POST['type2']   ?? '';
     $img    = trim($_POST['img']    ?? '');
     $weight = trim($_POST['weight'] ?? '');
     $height = trim($_POST['height'] ?? '');
-    $discription = trim($_POST['discription'] ?? '');
+    $description = trim($_POST['description'] ?? '');
 
-    if ($name && in_array($type, ['water','fire','grass','electric','wind']) && $img) {
-        $stmt = $conn->prepare("UPDATE tb_pokemon SET name=?, type=?, img=?, weight=?, height=?, discription=? WHERE dex_number=?");
-        $stmt->bind_param("ssssssi", $name, $type, $img, $weight, $height, $discription, $id);
-        // $stmt->bind_param("sssssssi", $name, $type, $img, $weight, $height, $discription, $id);
+    if ($name && in_array($type1, ['water','fire','grass','electric','wind']) && $img) {
+        $stmt = $conn->prepare("UPDATE tb_pokemon SET name=?, type1=?, type2=?, img=?, weight=?, height=?, description=? WHERE dex_number=?");
+        $stmt->bind_param("sssssssi", $name, $type1, $type2, $img, $weight, $height, $description, $id);
+        // $stmt->bind_param("sssssssi", $name, $type1, $type2, $img, $weight, $height, $description, $id);
 
         if ($stmt->execute()) {
             header("Location: admin.php?msg=Product+bijgewerkt");
@@ -93,14 +94,20 @@ if (!$product) {
     <label> <input name="type" required type="radio" value="wind"> Wind <br> </label>
     <br><br>
 
+     2e type<br>
+    <input type="type"  name="radio" value="fly"> Fly <br>  
+    <input type="type"  name="radio" value:="ground"> Ground <br>
+    <input type="type"  name="radio" value:="rock"> Rock <br>
+    <input type="type"  name="radio" value:="poison"> Poison <br>
+
     <label>Weight:</label>
     <input type="text" name="weight" required class="weight" placeholder="Weight" value="<?= htmlspecialchars($product['weight']) ?>">
 
     <label>Height:</label>
     <input type="text" name="height" required class="height" placeholder="Height" value="<?= htmlspecialchars($product['height']) ?>">
 
-    <label>Discription:</label>
-    <input type="text" name="discription" required class="discription" placeholder="Discription" value="<?= htmlspecialchars($product['discription']) ?>">
+    <label>Description:</label>
+    <input type="text" name="description" required class="description" placeholder="Description" value="<?= htmlspecialchars($product['description']) ?>">
 
     <button type="submit">Opslaan</button>
     &nbsp; &nbsp;
