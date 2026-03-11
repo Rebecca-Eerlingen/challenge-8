@@ -9,15 +9,14 @@ error_reporting (E_ALL);
 if (isset($_POST["action"]) && $_POST["action"] === "delete") {
     $id = $_POST["dex_number"] ?? null;
 
-   $stmt = $conn->prepare("DELETE FROM tb_pokemon WHERE dex_number = ?");
-   $stmt->bind_param("i", $id);
+   $stmt = $conn->prepare("DELETE FROM tb_pokemon WHERE dex_number = :id");
+   $stmt->bindParam(":id", $id);
 
    if ($stmt->execute()) {
        header ("Location: admin.php");
        exit;
-    } else { $error = "verwijderen mislukt:". $conn->error; 
+    } else { $error = "verwijderen mislukt:". implode(", ", $conn->errorInfo()); 
     } 
-    $stmt->close();
 }
 ?>
 
@@ -132,21 +131,22 @@ if (!empty($search)) {
         or height LIKE ?");
     $searchTerm = "%" . $search . "%";
 
-    $stmt->bind_param("sssssss", $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm);
+    $stmt->bindValue(':search', "%$search");
+
     $stmt->execute();
-    $result = $stmt->get_result();
+    $result = $stmt;
 } else {
     $result = $conn->query("SELECT * FROM tb_pokemon");
 }
 
 
  if (!$result) {
-    echo "<p style='color:red; font-weight:bold;'> ";
-    echo 'data query mislukt'. htmlspecialchars($conn->error);
-    echo '</p>';
- } elseif ($result->num_rows === 0) {
-    echo '<p> geen pokemon gevonden.</p>';
- } else { 
+    echo "<p style='color:red; font-weight:bold;'> dataquery mislukt: ";
+ } $data = $result->fetchAll(PDO::FETCH_ASSOC);
+
+    if (!$data) {
+        echo "<p style='color:red; font-weight:bold;'> geen pokemon gevonden.</p>";
+ } else{
  ?>
     <!-- lijst met hele database -->
 
@@ -168,7 +168,7 @@ if (!empty($search)) {
             <th>Description</th>
         </tr>
 
-        <?php while($row = $result->fetch_assoc()): ?>
+        <?php foreach ($data as $row) { ?>
             <tr>
             <td><?= htmlspecialchars($row['dex_number']    ?? '—') ?></td>
             <td><?= htmlspecialchars($row['name']  ?? '—') ?></td>
@@ -178,32 +178,28 @@ if (!empty($search)) {
             <td><?= htmlspecialchars($row['weight'] ?? '—') ?></td>
             <td><?= htmlspecialchars($row['height'] ?? '—') ?></td>
             <td><?= htmlspecialchars($row['description'] ?? '—') ?></td>
-
-                            <td></td><form action="admin.php" method="POST" style="display:inline;"> 
-                                <input type="hidden" name="action" value="delete">
-                                <input type="hidden" name="dex_number" value="<?= $row['dex_number'] ?>">
-                                <button type="submit" class="btn delete"
-                                    onclick="return confirm('Weet je zeker dat je <?= htmlspecialchars($row['name'], ENT_QUOTES) ?> wilt verwijderen?');">
-                                    🗑️ Verwijderen
-                                </button>
-                            </form>
-                            <a href="edit.php?dex_number=<?= $row['dex_number'] ?>" 
+            <td><form action="admin.php" method="POST" style="display:inline;"> 
+            <input type="hidden" name="action" value="delete">
+            <input type="hidden" name="dex_number" value="<?= $row['dex_number'] ?>">
+            <button type="submit" class="btn delete"
+                onclick="return confirm('Weet je zeker dat je <?= htmlspecialchars($row['name'], ENT_QUOTES) ?> wilt verwijderen?');">
+                🗑️ Verwijderen
+            </button> 
+        <a href="edit.php?dex_number=<?= $row['dex_number'] ?>" 
                             class="btn change"
                             onclick="return confirm('Weet je zeker dat je <?= htmlspecialchars($row['name'], ENT_QUOTES) ?> wilt wijzigen?');">
                             wijzigen ✏️
                             </a>
+        
+        </td> 
+ </form>
 
-                        </td>
-</td>
-                            </a>
-                        </td>
-            </tr>
-        <?php endwhile; ?>
-
-    </table>
+</tr>
+        
     <?php
-        }
+        }}
     ?>
+    </table>
     </center>
 </body>
 </html>

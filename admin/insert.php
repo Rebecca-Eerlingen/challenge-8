@@ -1,7 +1,4 @@
 <?php
-
-use Dom\Sqlite;
-
 include ("../includes/db.php");
 
 $name = $_POST["name"] ?? '';
@@ -15,18 +12,20 @@ $types = $_POST["type"] ?? [];
 $type1 = $types[0] ?? NULL;
 $type2 = $types[1] ?? NULL;
 
-$sql = "INSERT INTO `tb_pokemon` 
-(`name`, `img`, `type1`, `type2`, `weight`, `height`, `description`, `dex_number`)
-VALUES 
-('$name', '$img', '$type1', '$type2', '$weight', '$height', '$description', '$dex_number')";
-if ($conn->query($sql) === TRUE) {
-    echo "pokemon succesvol toegevoegd";
-} 
-else {
-    echo "Error" . $sql . "<br>" . $conn->error;
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    if (!empty($name) && !empty($img) && count($types) >= 1) {
+        try {
+            $stmt = $conn->prepare("INSERT INTO tb_pokemon (name, img, type1, type2, weight, height, description, dex_number) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$name, $img, $type1, $type2, $weight, $height, $description, $dex_number]);
+            header("Location: admin.php?msg=Product+toegevoegd");
+            exit;
+        } catch (PDOException $e) {
+            die("Error: " . $e->getMessage());
+        }
+    } else {
+        echo "Vul alle vereiste velden in.";
+    }
 }
-
-$conn->close();
 ?>
 
 <!DOCTYPE html>

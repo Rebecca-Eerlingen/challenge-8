@@ -25,18 +25,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $type2 = $types[1] ?? null;
 
     if ($name && $img && count($types) >= 1) {
-        $stmt = $conn->prepare("UPDATE tb_pokemon SET name=?, type1=?, type2=?, img=?, weight=?, height=?, description=? WHERE dex_number=?");
-        $stmt->bind_param("sssssssi", $name, $type1, $type2, $img, $weight, $height, $description, $id);
-        // $stmt->bind_param("sssssssi", $name, $type1, $type2, $img, $weight, $height, $description, $id);
+
+    try {
+        $stmt = $conn->prepare("UPDATE tb_pokemon SET name = ?, img = ?, type1 = ?, type2 = ?, weight = ?, height = ?, description = ? WHERE dex_number = ?");    
+        $stmt->execute([$name, $img, $type1, $type2, $weight, $height, $description, $id]);
 
         if ($stmt->execute()) {
             header("Location: admin.php?msg=Product+bijgewerkt");
             exit;
-        } else {
-            $error = "Update mislukt: " . $conn->error;
+        } 
+        } catch (PDOException $e) {
+            $error = "Update mislukt: " . $e->getMessage();
         }
-        $stmt->close();
-    } else {
+        } else {
         $error = "Vul alle velden correct in.";
     }
 }
@@ -44,11 +45,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // load current data
 
 $stmt = $conn->prepare("SELECT * FROM tb_pokemon WHERE dex_number = ?");
-$stmt->bind_param("i", $id);
-$stmt->execute();
-$result = $stmt->get_result();
-$product = $result->fetch_assoc();
-$stmt->close();
+$stmt->execute([$id]);
+$product = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$product) {
     echo "Product niet gevonden.";
@@ -82,8 +80,7 @@ if (!$product) {
     <input name="name"   required value="<?= htmlspecialchars($product['name']) ?>">
 
     dex_number
-    <input name="dex_number" required type="number" value="<?= htmlspecialchars($product['dex_number']) ?>">
-
+    <input type="hidden" name="dex_number" value="<?= htmlspecialchars($product['dex_number']) ?>">
     <label>img:</label>
     <input name="img"    required value="<?= htmlspecialchars($product['img']) ?>">
 
