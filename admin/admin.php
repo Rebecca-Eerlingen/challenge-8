@@ -67,7 +67,7 @@ if (isset($_POST["action"]) && $_POST["action"] === "delete") {
         <h2>
             voeg pokemons toe aan Database
         </h2>
-        <form action="insert.php" method="POST">
+        <form action="insert.php" method="POST" container class="insert-form">
             Pokemon naam
             <input name="name" required type="text" placeholder="Naam"> <br> <br>
 
@@ -109,23 +109,54 @@ if (isset($_POST["action"]) && $_POST["action"] === "delete") {
             Description
             <input type="text" name="description" required class="description" placeholder="Description">
 
+            <br> <br>
             <input type="Submit" value="Submit">
             <br> <br> 
         </form>
         <p>
 
 <?php
-$result = $conn->query("SELECT * FROM tb_pokemon");
+// $result = $conn->query("SELECT * FROM tb_pokemon");
+
+$search = $_GET['search'] ?? '';
+
+// searchbar
+if (!empty($search)) {
+    $stmt = $conn->prepare("
+        SELECT * FROM tb_pokemon 
+        WHERE name LIKE ? 
+        OR type1 LIKE ? 
+        OR type2 LIKE ? 
+        OR description LIKE ?
+        OR dex_number LIKE ?
+        or weight LIKE ?
+        or height LIKE ?");
+    $searchTerm = "%" . $search . "%";
+
+    $stmt->bind_param("sssssss", $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm);
+    $stmt->execute();
+    $result = $stmt->get_result();
+} else {
+    $result = $conn->query("SELECT * FROM tb_pokemon");
+}
+
 
  if (!$result) {
     echo "<p style='color:red; font-weight:bold;'> ";
     echo 'data query mislukt'. htmlspecialchars($conn->error);
     echo '</p>';
  } elseif ($result->num_rows === 0) {
-    echo '<p> geen producten gevonden.</p>';
+    echo '<p> geen pokemon gevonden.</p>';
  } else { 
  ?>
     <!-- lijst met hele database -->
+
+    <form method="GET">
+        <input type="text" name="search" placeholder="Zoeken" value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
+        <button type="submit">Search</button>
+    </form>
+    <a href="admin.php">Reset</a>
+
     <table>
         <tr>
             <th>dex nummer</th>

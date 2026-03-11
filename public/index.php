@@ -1,3 +1,6 @@
+<?php include '../includes/db.php'; ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,12 +8,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>pokedex</title>
     <link rel="stylesheet" href="style.css">
-    <h1>welkom op onze pokedex</h1>
-    <br>
-    <h2>hier kun je gratis aan het rad draaien om pokemon's te vangen. spaar ze allemaal!</h2>
-
+    <div w3-include-html="../includes/header.html"></div>
+    <?php include '../includes/header.html'; ?>
 </head>
 <body>
     
 </body>
+<footer>
+    <?php include '../includes/footer.html'; ?>
+</footer>
+
 </html>
