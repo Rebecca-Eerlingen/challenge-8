@@ -3,7 +3,8 @@ ini_set ('display_errors',1);
 ini_set ('display_startup_errors',1);
 error_reporting (E_ALL);
 
- include ("../includes/db.php");
+include ("../includes/db.php");
+include ("../public/style.css");
 
 //  DELETE
 if (isset($_POST["action"]) && $_POST["action"] === "delete") {
@@ -27,7 +28,6 @@ if (isset($_POST["action"]) && $_POST["action"] === "delete") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>insert/delete page</title>
-    <link href=""> 
     <style>
         table {
             border-collapse: collapse;
@@ -68,19 +68,22 @@ if (isset($_POST["action"]) && $_POST["action"] === "delete") {
         <h2>
             voeg pokemons toe aan Database
         </h2>
-        <form action="insert.php" method="POST">
+        <form class="formBox" action="insert.php" method="POST">
             Pokemon naam
             <input name="name" required type="text" placeholder="Naam"> <br/> <br/>
 
             img
             <input name="img" required type="text" placeholder="Image URL"> <br/> <br>
-
-            type pokemon<br>
+        
+        <div class="box"> 
+            <p>type pokemon<p><br>
+            
             <input name="type" required type="radio" value="water"> Water <br>
             <input name="type" required type="radio" value="fire"> Fire <br>
             <input name="type" required type="radio" value="grass"> Grass <br>
             <input name="type" required type="radio" value="electric"> Electric <br>
             <input name="type" required type="radio" value="wind"> Wind <br>
+        </div>
 
             weight
             <input type="text" name="weight" required class="weight" placeholder="Weight">
@@ -92,7 +95,7 @@ if (isset($_POST["action"]) && $_POST["action"] === "delete") {
             <input type="text" name="description" required class="description" placeholder="Description">
 
             <input type="submit" value="submit">
-
+        
             <br> <br> 
         </form>
 

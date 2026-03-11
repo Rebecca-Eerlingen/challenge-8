@@ -6,10 +6,10 @@ ini_set("display_errors",1);
 ini_set("display_startup_errors",1);
 error_reporting(E_ALL);
 include ("../includes/db.php");
-$id = (int)($_GET['dex_number'] ?? 0);
+$id = (int)($_GET['id'] ?? 0);
 
 if ($id <= 0) {
-    echo "ongeldige dex number opgegeven.";
+    echo "ongeldige ID";
     exit;
 }
 
@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $discription = trim($_POST['discription'] ?? '');
 
     if ($name && in_array($type, ['water','fire','grass','electric','wind']) && $img) {
-        $stmt = $conn->prepare("UPDATE tb_pokemon SET name=?, type=?, img=?, weight=?, height=?, discription=? WHERE dex_number=?");
+        $stmt = $conn->prepare("UPDATE tb_pokemon SET name=?, type=?, img=?, weight=?, height=?, discription=? WHERE ID=?");
         $stmt->bind_param("ssssssi", $name, $type, $img, $weight, $height, $discription, $id);
         // $stmt->bind_param("sssssssi", $name, $type, $img, $weight, $height, $discription, $id);
 
@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // load current data
 
-$stmt = $conn->prepare("SELECT * FROM tb_pokemon WHERE dex_number = ?");
+$stmt = $conn->prepare("SELECT * FROM tb_pokemon WHERE ID = ?");
 $stmt->bind_param("i", $id);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -78,9 +78,6 @@ if (!$product) {
 <form method="POST">
     <label>naam:</label>
     <input name="name"   required value="<?= htmlspecialchars($product['name']) ?>">
-
-    dex_number
-    <input name="dex_number" required type="number" value="<?= htmlspecialchars($product['dex_number']) ?>">
 
     <label>img:</label>
     <input name="img"    required value="<?= htmlspecialchars($product['img']) ?>">

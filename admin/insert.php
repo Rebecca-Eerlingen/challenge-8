@@ -10,10 +10,9 @@ $type = $_POST["type"]?? '';
 $weight = $_POST["weight"]?? '';
 $height = $_POST["height"]?? '';
 $discription = $_POST["discription"]?? '';
-$dex_number = $_POST["dex_number"]?? '';
 
-$sql = "INSERT INTO `tb_pokemon` (`name`, `img`, `type`, `weight`, `height`, `discription`, `dex_number`)
-VALUES ('$name', '$img', '$type', '$weight', '$height', '$discription', '$dex_number')";
+$sql = "INSERT INTO `tb_pokemon` (`name`, `img`, `type`, `weight`, `height`, `discription`)
+VALUES ('$name', '$img', '$type', '$weight', '$height', '$discription')";
 if ($conn->query($sql) === TRUE) {
     echo "pokemon succesvol toegevoegd";
 } 
