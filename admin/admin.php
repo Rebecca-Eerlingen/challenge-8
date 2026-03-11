@@ -116,7 +116,6 @@ if (isset($_POST["action"]) && $_POST["action"] === "delete") {
         <p>
 
 <?php
-// $result = $conn->query("SELECT * FROM tb_pokemon");
 
 $search = $_GET['search'] ?? '';
 
@@ -179,11 +178,8 @@ if (!empty($search)) {
             <td><?= htmlspecialchars($row['weight'] ?? '—') ?></td>
             <td><?= htmlspecialchars($row['height'] ?? '—') ?></td>
             <td><?= htmlspecialchars($row['description'] ?? '—') ?></td>
-            <td>
-                            <form>
-                                
-                            </form>
-                            <form action="admin.php" method="POST" style="display:inline;"> 
+
+                            <td></td><form action="admin.php" method="POST" style="display:inline;"> 
                                 <input type="hidden" name="action" value="delete">
                                 <input type="hidden" name="dex_number" value="<?= $row['dex_number'] ?>">
                                 <button type="submit" class="btn delete"
