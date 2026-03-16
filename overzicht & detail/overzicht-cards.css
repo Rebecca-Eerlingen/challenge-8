@@ -34,8 +34,9 @@ body{
 
 /* image placeholder */
 .card-img{
+    display: flex;
+    justify-content: center;
     height:180px;
-    background:#999;
 
 }
 
