@@ -34,7 +34,8 @@ body{
 
 /* image placeholder */
 .card-img{
-    display: flex;
+    display: block;
+    margin: auto;
     justify-content: center;
     height:180px;
 
