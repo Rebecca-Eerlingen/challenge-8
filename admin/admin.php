@@ -65,8 +65,8 @@ if (isset($_POST["action"]) && $_POST["action"] === "delete") {
 <!-- lijst van pokemons -->
 <body>
     <center>
-        <h2>
-            voeg pokemons toe aan Database
+        <h2 id="titel">
+            Pokemon database, add, delete en edit pokemons
         </h2>
         <form class="formBox" action="insert.php" method="POST">
             Pokemon naam
@@ -77,7 +77,7 @@ if (isset($_POST["action"]) && $_POST["action"] === "delete") {
         
         <div class="box"> 
             <p>type pokemon<p><br>
-            
+
             <input name="type" required type="radio" value="water"> Water <br>
             <input name="type" required type="radio" value="fire"> Fire <br>
             <input name="type" required type="radio" value="grass"> Grass <br>
@@ -106,25 +106,37 @@ if (isset($_POST["action"]) && $_POST["action"] === "delete") {
         <p>
 
 <?php
+//searchbar
 $search = $_GET['query'] ?? '';
 
 if ($search !== '') {
-    $stmt = $conn->prepare("SELECT * FROM tb_pokemon WHERE name LIKE ?");
+    $stmt = $conn->prepare("
+        SELECT * FROM tb_pokemon 
+        WHERE name LIKE ? 
+        OR type LIKE ? 
+        OR weight LIKE ? 
+        OR height LIKE ? 
+        OR discription LIKE ?
+    ");
+
     $like = "%".$search."%";
-    $stmt->bind_param("s", $like);
+
+    $stmt->bind_param("sssss", $like, $like, $like, $like, $like);
     $stmt->execute();
     $result = $stmt->get_result();
+
 } else {
     $result = $conn->query("SELECT * FROM tb_pokemon");
 }
 
- if (!$result) {
-    echo "<p style='color:red; font-weight:bold;'> ";
-    echo 'data query mislukt'. htmlspecialchars($conn->error);
+if (!$result) {
+    echo "<p style='color:red; font-weight:bold;'>";
+    echo 'data query mislukt ' . htmlspecialchars($conn->error);
     echo '</p>';
- } elseif ($result->num_rows === 0) {
-    echo '<p> geen producten gevonden.</p>';
- } else { 
+} elseif ($result->num_rows === 0) {
+    echo '<p>geen resultaat.</p>';
+} else {
+    //searchbar
  ?>
     <!-- lijst met hele database -->
     <table>
@@ -135,7 +147,7 @@ if ($search !== '') {
             <th>Type</th>
             <th>Weight</th>
             <th>Height</th> 
-            <th>Discription</th>
+            <th>Description</th>
         </tr>
 
         <?php while($row = $result->fetch_assoc()): ?>
