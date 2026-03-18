@@ -5,6 +5,7 @@ error_reporting (E_ALL);
 
 include ("../includes/db.php");
 
+
 //  DELETE
 if (isset($_POST["action"]) && $_POST["action"] === "delete") {
     $id = $_POST["id"] ?? null;
@@ -27,8 +28,8 @@ if (isset($_POST["action"]) && $_POST["action"] === "delete") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>insert/delete page</title>
-
     <link rel="stylesheet" href="style.css">
+    <body>
 
     <div class="dropdown">
     <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -77,7 +78,7 @@ if (isset($_POST["action"]) && $_POST["action"] === "delete") {
 </head>
 
 <!-- lijst van pokemons -->
-<body>
+
     <center>
         <h2 id="titel">
             Pokemon database, add, delete en edit pokemons
@@ -149,9 +150,10 @@ dan laat hij de onderstaande tekst zien
 if (!$result) {
     echo "<p style='color:red; font-weight:bold;'>";
     echo '</p>';
-} elseif ($result->num_rows === 0) {
+} elseif ($result->rowCount() === 0) {
     echo '<p>geen resultaat.</p>';
 } else {
+
     //searchbar
  ?>
     <!-- lijst met hele database -->
@@ -166,7 +168,7 @@ if (!$result) {
             <th>Description</th>
         </tr>
 
-        <?php while($row = $result->fetch_assoc()): ?>
+        <?php while($row = $result->fetch(PDO::FETCH_ASSOC)): ?>
             <tr>
             <td><?= htmlspecialchars($row['id']    ?? '—') ?></td>
             <td><?= htmlspecialchars($row['name']  ?? '—') ?></td>
