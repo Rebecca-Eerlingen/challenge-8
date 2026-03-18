@@ -6,21 +6,58 @@ error_reporting (E_ALL); ?>
 
 <!DOCTYPE html>
 <html lang="en">
-<header>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>pokedex</title>
-    <link rel="stylesheet" href="style.css">
+    <title>RNGdex</title>
+    <link rel="stylesheet" href="pokemon.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    
     <div w3-include-html="../includes/header.html"></div>
     <?php include '../includes/header.html'; ?>
-    <h1>welkom bij Pokedex Vista</h1>
-
-</header>
+</head>
 
 <body>
-<div class="container pokedex">
-    
+<div class="container pokedex"></div>
+
+    <div class="header" style="position: absolute; top: 75px; width: 99%;">
+    <img src="rngdex2.png">
+    </div>
+
+    <div class="speaker">
+        <button id="speakerbutton">
+            <img id="speakericon" src="mspeaker_45x45.png">
+        </button>
+    </div>
+
+    <div class="gebruiker">
+        <button>Gebruiker</button>
+    </div>
+
+    <div class="flexbox" style="position: absolute; bottom: 100px; width: 99%;">
+
+        <div class="index">
+            <a href="https://pokemondb.net/pokedex/all" target="_blank">
+            <button>Index</button>
+            </a>
+        </div>
+
+        <div class="rollen">
+            <button>
+                <img src="rollen3.png">
+            </button>
+    </div>
+
+        <div class="kansen">
+            <button>Kansen</button>
+        </div>
 </div>
+
+<audio id="bgmusic" loop>
+    <source src="pokemon lake.mp3" type="audio/mpeg">
+</audio>
 
      <?php 
      $result = $conn->query("SELECT * FROM tb_pokemon");
@@ -37,7 +74,7 @@ error_reporting (E_ALL); ?>
             <td><?= htmlspecialchars($row['description'] ?? '—') ?></td> 
 <?php } ?>
 
-</a>
+<script src="pokemon.js"></script>
 </body>
 
 <footer>
