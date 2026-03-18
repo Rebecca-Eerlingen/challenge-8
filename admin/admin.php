@@ -28,6 +28,19 @@ if (isset($_POST["action"]) && $_POST["action"] === "delete") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>insert/delete page</title>
+
+    <div class="dropdown">
+    <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Meer
+    </button>
+    <div class="dropdown-menu">
+        <a class="dropdown-item" href="#">Overzicht</a>
+        <a class="dropdown-item" href="#">Pokedex</a>
+        <a class="dropdown-item" href="#">Database</a>
+    </div>
+    </div>
+
+
     <style>
         table {
             border-collapse: collapse;
@@ -128,10 +141,12 @@ if ($search !== '') {
 } else {
     $result = $conn->query("SELECT * FROM tb_pokemon");
 }
-
+/* Als de ingevulde zoektermen niet staan in de database, 
+dan laat hij de onderstaande tekst zien 
+'geen resultaat' in het rood
+*/
 if (!$result) {
     echo "<p style='color:red; font-weight:bold;'>";
-    echo 'data query mislukt ' . htmlspecialchars($conn->error);
     echo '</p>';
 } elseif ($result->num_rows === 0) {
     echo '<p>geen resultaat.</p>';
