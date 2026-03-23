@@ -15,29 +15,54 @@ error_reporting (E_ALL); ?>
     <?php include '../includes/header.html'; ?>
     <h1>welkom bij Pokedex Vista</h1>
 
+    <div class="container"></div>
 </header>
 
 <body>
-<div class="container pokedex">
-    
+
+<div class="container">
+
+<?php 
+$result = $conn->query("SELECT * FROM tb_pokemon");
+$data = $result->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($data as $row) { ?>
+
+<div class="pokedex">
+    <br>
+
+
+<div class="dex_number">
+<h1> # <?= htmlspecialchars($row['dex_number'] ?? '—') ?> <?= htmlspecialchars($row['name'] ?? '—') ?></h1>
 </div>
 
-     <?php 
-     $result = $conn->query("SELECT * FROM tb_pokemon");
-     $data = $result->fetchAll(PDO::FETCH_ASSOC);
-     foreach ($data as $row) { ?>
-            <tr>
-            <td><?= htmlspecialchars($row['dex_number']    ?? '—') ?></td>
-            <td><?= htmlspecialchars($row['name']  ?? '—') ?></td>
-            <td> <img src="../pokemon img/icons/<?= htmlspecialchars($row['dex_number']  ?? '—') ?>.png" alt=""></td>
-            <td><?= htmlspecialchars($row['type1'] ?? '—') ?></td>
-            <td><?= htmlspecialchars($row['type2'] ?? '—') ?></td>
-            <td><?= htmlspecialchars($row['weight'] ?? '—') ?></td>
-            <td><?= htmlspecialchars($row['height'] ?? '—') ?></td>
-            <td><?= htmlspecialchars($row['description'] ?? '—') ?></td> 
+
+
+<img src="../pokemon img/icons/<?= htmlspecialchars($row['dex_number'] ?? '—') ?>.png">
+
+<div class="type">
+<?= htmlspecialchars($row['type1'] ?? '—') ?> <br>
+<?= htmlspecialchars($row['type2'] ?? '') ?>
+</div>
+
+<div>
+Height: <?= htmlspecialchars($row['height'] ?? '—') ?>
+</div>
+
+<div>
+Weight: <?= htmlspecialchars($row['weight'] ?? '—') ?>
+</div>
+
+<div class="description">
+<?= htmlspecialchars($row['description'] ?? '—') ?>
+</div>
+
+</div>
+
 <?php } ?>
 
-</a>
+</div>
+
 </body>
 
 <footer>
