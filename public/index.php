@@ -56,6 +56,7 @@ error_reporting (E_ALL); ?>
             <a href="contact.html">
                 <button>Contact</button>
             </a>
+            <button>Kansen</button>
         </div>
 </div>
 
