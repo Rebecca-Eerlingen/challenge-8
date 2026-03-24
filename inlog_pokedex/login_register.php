@@ -2,6 +2,7 @@
 
 session_start();
 require_once "config.php";
+$conn = connection();
 
 if (isset($_POST['register'])) {
     $_SESSION['active_form'] = "register";
