@@ -17,58 +17,6 @@ error_reporting (E_ALL); ?>
     
     <div w3-include-html="../includes/header.html"></div>
     <?php include '../includes/header.html'; ?>
-<<<<<<< HEAD
-    <h1>welkom bij Pokedex Vista</h1>
-
-    <div class="container"></div>
-</header>
-
-<body>
-
-<div class="container">
-
-<?php 
-$result = $conn->query("SELECT * FROM tb_pokemon");
-$data = $result->fetchAll(PDO::FETCH_ASSOC);
-
-foreach ($data as $row) { ?>
-
-<div class="pokedex">
-    <br>
-
-
-<div class="dex_number">
-<h1> # <?= htmlspecialchars($row['dex_number'] ?? '—') ?> <?= htmlspecialchars($row['name'] ?? '—') ?></h1>
-</div>
-
-
-
-<img src="../pokemon img/icons/<?= htmlspecialchars($row['dex_number'] ?? '—') ?>.png">
-
-<div class="type">
-<?= htmlspecialchars($row['type1'] ?? '—') ?> <br>
-<?= htmlspecialchars($row['type2'] ?? '') ?>
-</div>
-
-<div>
-Height: <?= htmlspecialchars($row['height'] ?? '—') ?>
-</div>
-
-<div>
-Weight: <?= htmlspecialchars($row['weight'] ?? '—') ?>
-</div>
-
-<div class="description">
-<?= htmlspecialchars($row['description'] ?? '—') ?>
-</div>
-
-</div>
-
-<?php } ?>
-
-</div>
-
-=======
 </head>
 
 <body>
@@ -127,7 +75,6 @@ Weight: <?= htmlspecialchars($row['weight'] ?? '—') ?>
 <?php } ?>
 
 <script src="pokemon.js"></script>
->>>>>>> 034ee28010bda5cd48c839f2ac359e8517a02a21
 </body>
 
 <footer>

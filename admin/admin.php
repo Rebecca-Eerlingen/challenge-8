@@ -122,16 +122,16 @@ $search = $_GET['search'] ?? '';
 if (!empty($search)) {
     $stmt = $conn->prepare("
         SELECT * FROM tb_pokemon 
-        WHERE name LIKE ? 
-        OR type1 LIKE ? 
-        OR type2 LIKE ? 
-        OR description LIKE ?
-        OR dex_number LIKE ?
-        or weight LIKE ?
-        or height LIKE ?");
+        WHERE name LIKE :search 
+        OR type1 LIKE :search 
+        OR type2 LIKE :search 
+        OR description LIKE :search 
+        OR dex_number LIKE :search 
+        or weight LIKE :search 
+        or height LIKE :search");
     $searchTerm = "%" . $search . "%";
 
-    $stmt->bindValue(':search', "%$search");
+    $stmt->bindValue(':search', $searchTerm);
 
     $stmt->execute();
     $result = $stmt;
