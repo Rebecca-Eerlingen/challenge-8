@@ -48,6 +48,7 @@ if (isset($_POST['login'])) {
         } else {
             header("Location: user_page.php");
         }
+        
         exit();
     } 
 }
