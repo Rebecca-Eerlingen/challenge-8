@@ -21,6 +21,7 @@ if (isset($_POST["action"]) && $_POST["action"] === "delete") {
 ?>
 
 <!DOCTYPE html>
+<link rel="stylesheet" href="style.css">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
