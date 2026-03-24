@@ -1,11 +1,10 @@
  <?php
-
- session_start();
 ini_set ('display_errors',1);
 ini_set ('display_startup_errors',1);
 error_reporting (E_ALL);
 
- include ("../includes/db.php");
+include ("../includes/db.php");
+
 
 //  DELETE
 if (isset($_POST["action"]) && $_POST["action"] === "delete") {
@@ -23,12 +22,12 @@ if (isset($_POST["action"]) && $_POST["action"] === "delete") {
 ?>
 
 <!DOCTYPE html>
-<link rel="stylesheet" href="style.css">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>insert/delete page</title>
+    <link rel="stylesheet" href="style.css">
     <style>
         table {
             border-collapse: collapse;
@@ -65,57 +64,61 @@ if (isset($_POST["action"]) && $_POST["action"] === "delete") {
 
 <!-- lijst van pokemons -->
 <body>
-    <center>
-        <h2>
-            voeg pokemons toe aan Database
-        </h2>
-        <form action="insert.php" method="POST" container class="insert-form">
-            Pokemon naam
-            <input name="name" required type="text" placeholder="Naam"> <br> <br>
 
-            dex_number
-            <input name="dex_number" required type="number" placeholder="Dex number"> <br/> <br/>
+        <div class="box">
+            <h2>
+                voeg pokemons toe aan Database
+            </h2>
+            <form action="insert.php" method="POST" class="insert-form">
+                Pokemon naam
+                <input name="name" required type="text" placeholder="Naam"> <br> <br>
 
-            img
-            <input name="img" required type="text" placeholder="Image URL"> <br/> <br>
+                dex_number
+                <input name="dex_number" required type="number" placeholder="Dex number"> <br/> <br/>
 
-            Type <br><br>
-            <input type="checkbox" name="type[]" value="water"> Water
-            <input type="checkbox" name="type[]" value="fire"> Fire
-            <input type="checkbox" name="type[]" value="grass"> Grass
-            <input type="checkbox" name="type[]" value="electric"> Electric
-            <input type="checkbox" name="type[]" value="flying"> Flying
-            <input type="checkbox" name="type[]" value="ground"> Ground
-            <input type="checkbox" name="type[]" value="rock"> Rock
-            <input type="checkbox" name="type[]" value="poison"> Poison
-            <input type="checkbox" name="type[]" value="ice"> Ice
-            <input type="checkbox" name="type[]" value="dark"> Dark
-            <input type="checkbox" name="type[]" value="steel"> Steel
-            <input type="checkbox" name="type[]" value="fairy"> Fairy
-            <input type="checkbox" name="type[]" value="fighting"> Fighting
-            <input type="checkbox" name="type[]" value="psychic"> Psychic
-            <input type="checkbox" name="type[]" value="bug"> Bug
-            <input type="checkbox" name="type[]" value="ghost"> Ghost
-            <input type="checkbox" name="type[]" value="dragon"> Dragon
-            <input type="checkbox" name="type[]" value="normal"> Normal
-            <br> <br>
+                img
+                <input name="img" required type="text" placeholder="Image URL"> <br/> <br>
 
-            
+                Type <br><br>
+                <div class="checkbox">
+                <input type="checkbox" name="type[]" value="water"> Water
+                <input type="checkbox" name="type[]" value="fire"> Fire
+                <input type="checkbox" name="type[]" value="grass"> Grass
+                <input type="checkbox" name="type[]" value="electric"> Electric
+                <input type="checkbox" name="type[]" value="flying"> Flying
+                <input type="checkbox" name="type[]" value="ground"> Ground
+                <input type="checkbox" name="type[]" value="rock"> Rock
+                <input type="checkbox" name="type[]" value="poison"> Poison
+                <input type="checkbox" name="type[]" value="ice"> Ice
+                <input type="checkbox" name="type[]" value="dark"> Dark
+                <input type="checkbox" name="type[]" value="steel"> Steel
+                <input type="checkbox" name="type[]" value="fairy"> Fairy
+                <input type="checkbox" name="type[]" value="fighting"> Fighting
+                <input type="checkbox" name="type[]" value="psychic"> Psychic
+                <input type="checkbox" name="type[]" value="bug"> Bug
+                <input type="checkbox" name="type[]" value="ghost"> Ghost
+                <input type="checkbox" name="type[]" value="dragon"> Dragon
+                <input type="checkbox" name="type[]" value="normal"> Normal
+                </div>
+                <br> <br>
 
-            weight
-            <input type="text" name="weight" required class="weight" placeholder="Weight">
+                
 
-            height
-            <input type="text" name="height" required class="height" placeholder="Height">
+                weight
+                <input type="text" name="weight" required class="weight" placeholder="Weight">
 
-            Description
-            <input type="text" name="description" required class="description" placeholder="Description">
+                height
+                <input type="text" name="height" required class="height" placeholder="Height">
 
-            <br> <br>
-            <input type="Submit" value="Submit">
-            <br> <br> 
-        </form>
-        <p>
+                Description
+                <input type="text" name="description" required class="description" placeholder="Description">
+
+            </div>
+                <br> <br>
+                <input type="Submit" value="Submit">
+                <br> <br> 
+            </form>
+            <p>
 
 <?php
 
@@ -203,6 +206,6 @@ if (!empty($search)) {
         }}
     ?>
     </table>
-    </center>
+   
 </body>
 </html>
