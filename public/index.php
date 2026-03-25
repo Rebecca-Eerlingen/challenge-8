@@ -1,6 +1,4 @@
-<?php 
-session_start();
-include ('../includes/db.php');use Vtiful\Kernel\Format;
+<?php include ('../includes/db.php');use Vtiful\Kernel\Format;
 ini_set ('display_errors',1);
 ini_set ('display_startup_errors',1);
 error_reporting (E_ALL); ?>
@@ -22,23 +20,6 @@ error_reporting (E_ALL); ?>
 </head>
 
 <body>
-    <?php
-    if (isset($_GET['msg'])):?>
-    <div style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-                    background: #4CAF50; color: white; padding: 15px 25px; border-radius: 8px;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 10000; 
-                    font-family: 'Press Start 2P', cursive; text-align: center;">
-                    <?= htmlspecialchars($_GET['msg']) ?>
-    </div>
-
-    <script>
-        setTimeout(function() {
-            const msgDiv = document.querySelector('div[style*="position: fixed"]');
-        if (msgDiv) msgDiv.style.display = 'none';            
-        }, 4000);
-    </script>
-    <?php endif; ?>
-
 <div class="container pokedex"></div>
 
     <div class="header" style="position: absolute; top: 75px; width: 99%;">
@@ -64,18 +45,12 @@ error_reporting (E_ALL); ?>
         </div>
 
         <div class="rollen">
-            <form method="POST" action="catch.php">
-                <button type="submit">
+            <button>
                 <img src="rollen3.png">
             </button>
-            </form>
-            
     </div>
 
         <div class="kansen">
-            <a href="contact.html">
-                <button>Contact</button>
-            </a>
             <button>Kansen</button>
         </div>
 </div>
