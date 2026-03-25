@@ -23,7 +23,7 @@ $pokemon = $stmt->fetch();
     <div class="card-container">
         <div class="card">
             <h2 class="name"> <?= htmlspecialchars($pokemon['name']) ?> <h2>
-            <img src="../pokemon img/icons/<?= htmlspecialchars($row['dex_number']  ?? '—') ?>.png" alt="">
+            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/<?= htmlspecialchars($pokemon['dex_number']  ?? '—') ?>.svg" alt="">
             <div class="card-body">
                 <p> <?= htmlspecialchars($pokemon['description']) ?> </p>
                 <p> <?= htmlspecialchars($pokemon['type1']) ?> </P>
