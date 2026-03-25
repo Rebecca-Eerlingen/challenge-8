@@ -32,13 +32,7 @@ button:active {
     transform: scale(0.95);
 }
 
-.header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 15vh;
-    margin: 0;
-}
+
 
 .index {
     width: 150px;
@@ -93,3 +87,52 @@ button:active {
     align-items: center;
     gap: 50px;
 }
+
+.contactbox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    color: transparent;
+    gap: 20px;
+    background: linear-gradient(to right, red, white) text;
+}
+
+a:link {
+    color: transparent;
+    text-decoration: none;
+    background: linear-gradient(to right, red, white) text;
+}
+
+a:hover {
+    color: red;
+}
+
+a:active {
+    color: transparent;
+    text-decoration: none;
+    background: linear-gradient(to right, red, white) text;
+}
+
+a:visited {
+    color: transparent;
+    text-decoration: none;
+    background: linear-gradient(to right, red, white) text;
+}
+
+.pokedex {
+    background: rgba(0, 0, 0, 0.3);
+    color: white;
+    border-radius: 5px;
+    padding: 2rem;
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* top */
+    width: 100%;
+    margin-bottom: 50px;
+    padding-top: 10px;
+}
+
