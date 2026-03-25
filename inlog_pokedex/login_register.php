@@ -1,8 +1,9 @@
 <?php
 
 session_start();
-require_once "config.php";
-$conn = connection();
+require_once "../includes/db.php";
+$conn = new mysqli($servername, $username, $password, $dbname);
+
 
 if (isset($_POST['register'])) {
     $_SESSION['active_form'] = "register";
@@ -45,7 +46,7 @@ if (isset($_POST['login'])) {
         }
         
         if ($user['role'] === 'admin') {
-            header("Location: admin_page.php");
+            header("Location: ../admin/admin.php");
         } else {
             header("Location: ../public/index.php");
         }
