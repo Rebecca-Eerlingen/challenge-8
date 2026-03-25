@@ -73,6 +73,9 @@ error_reporting (E_ALL); ?>
     </div>
 
         <div class="kansen">
+            <a href="contact.html">
+                <button>Contact</button>
+            </a>
             <button>Kansen</button>
         </div>
 </div>

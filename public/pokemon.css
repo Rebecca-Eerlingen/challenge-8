@@ -93,3 +93,35 @@ button:active {
     align-items: center;
     gap: 50px;
 }
+
+.contactbox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    color: transparent;
+    gap: 20px;
+    background: linear-gradient(to right, red, white) text;
+}
+
+a:link {
+    color: transparent;
+    text-decoration: none;
+    background: linear-gradient(to right, red, white) text;
+}
+
+a:hover {
+    color: red;
+}
+
+a:active {
+    color: transparent;
+    text-decoration: none;
+    background: linear-gradient(to right, red, white) text;
+}
+
+a:visited {
+    color: transparent;
+    text-decoration: none;
+    background: linear-gradient(to right, red, white) text;
+}
