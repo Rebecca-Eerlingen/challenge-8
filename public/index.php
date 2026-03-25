@@ -27,7 +27,14 @@ error_reporting (E_ALL); ?>
                     background: #4CAF50; color: white; padding: 15px 25px; border-radius: 8px;
                     box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 10000; 
                     font-family: 'Press Start 2P', cursive; text-align: center;">
+                    <p>
                     <?= htmlspecialchars($_GET['msg']) ?>
+                    <?php if (isset($_GET['dex'])):?>
+                        <img class="poke-img"
+                        src="../pokemon img/icons/<?= (int)$_GET['dex'] ?>.png">
+                        <?php endif; ?>
+                        </p>
+
     </div>
 
     <script>

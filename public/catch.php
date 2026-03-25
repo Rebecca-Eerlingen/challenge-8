@@ -2,39 +2,57 @@
 session_start();
 
 if (!isset($_SESSION["email"])) {
-    echo"<script> 
+    echo "<script> 
     alert('You are not logged in, please log in to access this page');
     window.location.href = '../inlog_pokedex/login.php';
     </script>";
     exit;
-    }
+}
 
-    include "../includes/db.php";
-    require_once "../includes/db.php";
+include "../includes/db.php";
 
-    $conn_users = new mysqli($servername, $username, $password, $dbname);
-    $users_email = $_SESSION["email"];
-
-    $stmt = $conn->prepare("SELECT dex_number FROM tb_pokemon ORDER BY RAND() LIMIT 1");
+$stmt = $conn->prepare("
+    SELECT dex_number, name 
+    FROM tb_pokemon 
+    ORDER BY RAND() 
+    LIMIT 1
+");
 $stmt->execute();
-$row = $stmt->fetch(PDO::FETCH_ASSOC);
+$row = $stmt->fetch();
 
 if (!$row) {
     die("Geen Pokémon gevonden in de database.");
 }
 
 $dex_number = (int)$row['dex_number'];
+$name = $row['name'];
+$img = '<img class="poke-img" src="../pokemon_img/icons/' . $dex_number . '.png" alt="' . htmlspecialchars($name) . '">';
 
-$stmt = $conn_users->prepare("INSERT IGNORE INTO user_pokemon (user_id, pokemon_dex_number, level) VALUES (?, ?, 5)");
-$stmt->bind_param("si", $users_email, $dex_number);
-$stmt->execute();
+$stmt = $conn->prepare("SELECT id FROM users_tb WHERE email = :email");
+$stmt->execute([':email' => $_SESSION['email']]);
+$user = $stmt->fetch();
 
-$msg = ($stmt->affected_rows > 0) 
-    ? "🎉 Je hebt een nieuwe Pokémon gevangen!" 
-    : "Je had deze Pokémon al! Probeer opnieuw te rollen.";
+if (!$user) {
+    die("Gebruiker niet gevonden.");
+}
 
-$conn_users->close();
+$user_id = $user['id'];
 
-header("Location: index.php?msg=" . urlencode($msg));
+$stmt = $conn->prepare("
+    INSERT IGNORE INTO user_pokemon (user_id, pokemon_dex_number, level)
+    VALUES (:user_id, :dex, 5)
+");
+
+$stmt->execute([
+    ':user_id' => $user_id,
+    ':dex' => $dex_number
+]);
+
+if ($stmt->rowCount() > 0) {
+    $msg = "🎉 Je hebt $img gevangen!";
+} else {
+    $msg = "⚠️ Je had $name al! Probeer opnieuw.";
+}
+
+header("Location: index.php?msg=" . urlencode("je hebt $name gevangen!") . "&dex=" . $dex_number);
 exit;
-        ?>
