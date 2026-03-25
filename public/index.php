@@ -49,16 +49,12 @@ error_reporting (E_ALL); ?>
             <img id="speakericon" src="mspeaker_45x45.png">
         </button>
     </div>
-
-    <!-- <div class="gebruiker">
-        <button>Gebruiker</button>
-    </div> -->
     </div>
     <div class="flexbox" style="bottom: 100px; width: 99%;">
 
         <div class="index">
-            <a href="https://pokemondb.net/pokedex/all" target="_blank">
-            <button>Index</button>
+            <a href="#pokedex">
+            <button>PokeDex</button>
             </a>
         </div>
 
@@ -71,9 +67,9 @@ error_reporting (E_ALL); ?>
             
     </div>
 
-        <div class="kansen">
-            <button>Kansen</button>
-        </div>
+    <div class="gebruiker">
+        <button>Gebruiker</button>
+    </div>
 
     <audio id="bgmusic" loop>
         <source src="pokemon lake.mp3" type="audio/mpeg">
@@ -82,7 +78,7 @@ error_reporting (E_ALL); ?>
 </div>
     </div>
 
-<div class="container pokedex">
+<div id="pokedex" class="container pokedex">
 
         <table>
      <?php 
