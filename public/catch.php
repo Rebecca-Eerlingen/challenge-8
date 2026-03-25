@@ -4,15 +4,15 @@ session_start();
 if (!isset($_SESSION["email"])) {
     echo"<script> 
     alert('You are not logged in, please log in to access this page');
-    window.location.href = 'login.php';
+    window.location.href = '../inlog_pokedex/login.php';
     </script>";
     exit;
     }
 
     include "../includes/db.php";
-    require_once "../inlog_pokedex/config.php";
+    require_once "../includes/db.php";
 
-    $conn_users = connection();
+    $conn_users = new mysqli($servername, $username, $password, $dbname);
     $users_email = $_SESSION["email"];
 
     $stmt = $conn->prepare("SELECT dex_number FROM tb_pokemon ORDER BY RAND() LIMIT 1");
@@ -25,8 +25,8 @@ if (!$row) {
 
 $dex_number = (int)$row['dex_number'];
 
-$stmt = $conn_users->prepare("INSERT IGNORE INTO users_tb (id, pokemon_dex_number, level) VALUES (?, ?, 5)");
-$stmt->bind_param("si", $user_email, $dex_number);
+$stmt = $conn_users->prepare("INSERT IGNORE INTO user_pokemon (user_id, pokemon_dex_number, level) VALUES (?, ?, 5)");
+$stmt->bind_param("si", $users_email, $dex_number);
 $stmt->execute();
 
 $msg = ($stmt->affected_rows > 0) 
