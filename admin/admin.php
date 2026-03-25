@@ -122,9 +122,11 @@ if (isset($_POST["action"]) && $_POST["action"] === "delete") {
 
 <?php
 
-$search = $_GET['search'] ?? '';
+
 
 // searchbar
+
+$search = $_GET['search'] ?? '';
 if (!empty($search)) {
     $stmt = $conn->prepare("
         SELECT * FROM tb_pokemon 

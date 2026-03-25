@@ -75,7 +75,8 @@ error_reporting (E_ALL); ?>
     </div>
 
     <div class="gebruiker">
-        <button>Gebruiker</button>
+        <a href="../inlog_pokedex/login.php">
+        <button>gebruiker</button></a>
     </div>
 
     <audio id="bgmusic" loop>
@@ -85,13 +86,47 @@ error_reporting (E_ALL); ?>
 </div>
     </div>
 
-<div id="pokedex" class="container pokedex">
+   <?php $search = $_GET['search'] ?? '';
+if (!empty($search)) {
+    $stmt = $conn->prepare("
+        SELECT * FROM tb_pokemon 
+        WHERE name LIKE :search 
+        OR type1 LIKE :search 
+        OR type2 LIKE :search 
+        OR description LIKE :search 
+        OR dex_number LIKE :search 
+        or weight LIKE :search 
+        or height LIKE :search");
+    $searchTerm = "%" . $search . "%";
+
+    $stmt->bindValue(':search', $searchTerm);
+
+    $stmt->execute();
+    $result = $stmt;
+} else {
+    $result = $conn->query("SELECT * FROM tb_pokemon");
+}
+
+
+ if (!$result) {
+    echo "<p style='color:red; font-weight:bold;'> dataquery mislukt: ";
+ } $data = $result->fetchAll(PDO::FETCH_ASSOC);
+
+    if (!$data) {
+        echo "<p style='color:red; font-weight:bold;'> geen pokemon gevonden.</p>";
+ } else{
+    ?>
+        <form method="GET">
+        <input type="text" name="search" placeholder="Zoeken" value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
+        <button type="submit">Search</button>
+        <p></p><a href="index.php"> reset</a>
+    </form>
+
+<div id="pokedex" class = "container pokedex">
 
         <table>
+            
      <?php 
-     $result = $conn->query("SELECT * FROM tb_pokemon");
-     $data = $result->fetchAll(PDO::FETCH_ASSOC);
-
      foreach ($data as $row) { ?>
             <tr>
             <td><?= htmlspecialchars($row['dex_number']    ?? '—') ?></td>
@@ -99,8 +134,9 @@ error_reporting (E_ALL); ?>
             <td> <img src="../pokemon img/icons/<?= htmlspecialchars($row['dex_number']  ?? '—') ?>.png" alt=""></td>
             <td><?= htmlspecialchars($row['type1'] ?? '—') ?></td>
             <td><?= htmlspecialchars($row['type2'] ?? '—') ?></td>
-            <td><a href="../detail/pokemon-detail.php?dex_number=<?= htmlspecialchars($row['dex_number']) ?>">Details</a></td>
-<?php } ?>
+            <td><a href="../overzicht & detail/pokemon-detail.php?dex_number=<?= htmlspecialchars($row['dex_number']) ?>">Details</a></td>
+<?php }} ?>
+
 </table>
 </div>
 <script src="pokemon.js"></script>

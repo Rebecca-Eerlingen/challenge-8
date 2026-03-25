@@ -1,5 +1,7 @@
 <?php
+
 session_start();
+
 
 if (!isset($_SESSION["email"])) {
     echo "<script> 
@@ -28,15 +30,11 @@ $dex_number = (int)$row['dex_number'];
 $name = $row['name'];
 $img = '<img class="poke-img" src="../pokemon_img/icons/' . $dex_number . '.png" alt="' . htmlspecialchars($name) . '">';
 
-$stmt = $conn->prepare("SELECT id FROM users_tb WHERE email = :email");
-$stmt->execute([':email' => $_SESSION['email']]);
-$user = $stmt->fetch();
+$user_id = $_SESSION['email'];
 
-if (!$user) {
+if (!$user_id) {
     die("Gebruiker niet gevonden.");
 }
-
-$user_id = $user['id'];
 
 $stmt = $conn->prepare("
     INSERT IGNORE INTO user_pokemon (user_id, pokemon_dex_number, level)
