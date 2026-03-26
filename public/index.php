@@ -1,7 +1,6 @@
 <?php 
 session_start();
 include ('../includes/db.php');
-// use Vtiful\Kernel\Format;
 ini_set ('display_errors',1);
 ini_set ('display_startup_errors',1);
 error_reporting (E_ALL); ?>
@@ -77,6 +76,10 @@ error_reporting (E_ALL); ?>
     <div class="gebruiker">
         <a href="../inlog_pokedex/login.php">
         <button>gebruiker</button></a>
+    </div>
+    <div class="gevangen pokemons">
+        <a href="MyPokémons.php">
+        <button>mijn pokémons</button></a>
     </div>
 
     <audio id="bgmusic" loop>
